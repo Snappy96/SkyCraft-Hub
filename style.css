@@ -1,0 +1,240 @@
+body {
+  margin: 0;
+  padding: 0;
+  font-family: Arial, sans-serif;
+  background-image: url('https://i.pinimg.com/videos/thumbnails/originals/2f/6b/d5/2f6bd5029e2b3bb71438747562c33bd8.0000000.jpg');
+  background-size: cover;
+  background-position: center;
+  color: white;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  justify-content: flex-start;
+  align-items: center;
+  text-align: center;
+}
+
+header {
+  width: 100%;
+  padding: 20px 0;
+  background-color: rgba(0, 0, 0, 0.6);
+  font-size: 2rem;
+  font-weight: bold;
+  letter-spacing: 2px;
+  user-select: none;
+}
+
+nav {
+  margin-top: 20px;
+  display: flex;
+  gap: 40px;
+  font-size: 1.3rem;
+}
+
+nav a {
+  color: white;
+  text-decoration: none;
+  padding: 10px 20px;
+  border-radius: 10px;
+  background-color: rgba(0, 0, 0, 0.5);
+  transition: background-color 0.3s ease;
+  cursor: pointer;
+  user-select: none;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  white-space: nowrap;
+}
+
+nav a:hover {
+  background-color: #00bfff;
+}
+
+nav a.active {
+  background-color: #00bfff;
+}
+
+main {
+  flex-grow: 1;
+  margin-top: 50px;
+  width: 90%;
+  max-width: 900px;
+  background-color: rgba(0, 0, 0, 0.65);
+  border-radius: 20px;
+  padding: 30px;
+  box-sizing: border-box;
+  color: white;
+  text-align: left;
+}
+
+/* MODIFIED - Added for copyright notice */
+section {
+  display: none;
+  position: relative;
+  padding-bottom: 30px;
+}
+
+section.active {
+  display: block;
+}
+
+/* ADDED - Copyright notice style */
+.copyright-line {
+  position: absolute;
+  bottom: 10px;
+  left: 0;
+  right: 0;
+  text-align: center;
+  font-size: 0.8rem;
+  color: rgba(255, 255, 255, 0.3);
+  font-family: monospace;
+  user-select: none;
+}
+
+h2 {
+  font-size: 2rem;
+  margin-bottom: 15px;
+  border-bottom: 2px solid #00bfff;
+  padding-bottom: 5px;
+  user-select: none;
+}
+
+#reguli p {
+  line-height: 1.5;
+  font-size: 1.1rem;
+  margin-bottom: 12px;
+}
+
+#stiri p {
+  background-color: rgba(0, 191, 255, 0.15);
+  border-radius: 8px;
+  padding: 12px 15px;
+  margin-bottom: 15px;
+  font-size: 1.1rem;
+  line-height: 1.4;
+  border-left: 4px solid #00bfff;
+}
+
+#top-jucatori {
+  margin: 30px 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  border-radius: 15px;
+  padding: 20px;
+  text-align: center;
+  user-select: none;
+}
+
+#top-jucatori h2 {
+  margin-bottom: 15px;
+  border-bottom: none;
+  color: #00bfff;
+}
+
+#top-jucatori ol {
+  font-size: 1.2rem;
+  color: white;
+  padding-left: 20px;
+}
+
+#top-jucatori ol li {
+  margin-bottom: 10px;
+}
+
+.btn {
+  padding: 12px 30px;
+  font-size: 18px;
+  border: none;
+  border-radius: 12px;
+  background-color: #00bfff;
+  color: white;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  margin-top: 15px;
+  user-select: none;
+}
+
+.btn:hover {
+  background-color: #0099cc;
+}
+
+form {
+  display: flex;
+  flex-direction: column;
+}
+
+label {
+  font-size: 1.1rem;
+  margin-bottom: 8px;
+  user-select: none;
+}
+
+input[type="text"],
+input[type="email"],
+textarea {
+  padding: 10px;
+  font-size: 1rem;
+  border-radius: 8px;
+  border: none;
+  margin-bottom: 20px;
+  resize: vertical;
+  font-family: Arial, sans-serif;
+}
+
+textarea {
+  min-height: 100px;
+}
+
+.success-message {
+  color: #00ff88;
+  font-weight: bold;
+  margin-top: 10px;
+  user-select: none;
+}
+
+.error-message {
+  color: #ff4444;
+  font-weight: bold;
+  margin-top: 10px;
+  user-select: none;
+}
+
+#online-players {
+  font-size: 1.2rem;
+  margin-bottom: 30px;
+  user-select: none;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+}
+
+#online-players span {
+  font-weight: bold;
+  font-size: 1.5rem;
+}
+
+/* === Animația full screen dedesubt === */
+#animation {
+  position: fixed;
+  top: 0; left: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: -1; /* dedesubtul tuturor */
+  background: linear-gradient(-45deg, #00bfff, #1e90ff, #00ffff, #008b8b);
+  background-size: 400% 400%;
+  animation: gradientAnimation 20s ease infinite;
+  pointer-events: none; /* nu blochează click */
+  filter: brightness(0.6); /* face textul lizibil */
+}
+
+@keyframes gradientAnimation {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}

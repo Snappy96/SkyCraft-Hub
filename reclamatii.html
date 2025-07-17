@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+  <meta charset="UTF-8" />
+  <title>Reclamații SkySMP</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #111;
+      color: white;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+    }
+    .container {
+      background: #222;
+      padding: 30px;
+      border-radius: 10px;
+      width: 350px;
+      box-shadow: 0 0 15px #00bfff;
+    }
+    input, textarea, button {
+      width: 100%;
+      margin-bottom: 15px;
+      padding: 10px;
+      border-radius: 5px;
+      border: none;
+      font-size: 14px;
+    }
+    input, textarea {
+      resize: none;
+    }
+    button {
+      background-color: #00bfff;
+      color: #111;
+      font-weight: bold;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+    button:hover {
+      background-color: #0077aa;
+    }
+    small {
+      color: #ccc;
+      display: block;
+      margin-top: -10px;
+      margin-bottom: 15px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h2>Trimite o reclamație</h2>
+    <input id="player" type="text" placeholder="Numele jucătorului" />
+    <textarea id="reason" rows="5" placeholder="Motivul reclamației"></textarea>
+    <input id="fileInput" type="file" accept="image/*,video/*" />
+    <small>Maxim 50MB, imagini sau video</small>
+    <button onclick="sendReport()">Trimite reclamația</button>
+  </div>
+
+  <script>
+    async function sendReport() {
+      const player = document.getElementById('player').value.trim();
+      const reason = document.getElementById('reason').value.trim();
+      const fileInput = document.getElementById('fileInput');
+      const file = fileInput.files[0];
+
+      if (!player || !reason) {
+        alert('Te rog completează toate câmpurile.');
+        return;
+      }
+
+      if (file) {
+        if (file.size > 50 * 1024 * 1024) { // 50MB
+          alert('Fișierul este prea mare. Maxim 50MB.');
+          return;
+        }
+        if (!file.type.startsWith('image/') && !file.type.startsWith('video/')) {
+          alert('Doar imagini sau video sunt permise.');
+          return;
+        }
+      }
+
+      const webhookURL = "https://discord.com/api/webhooks/1388484948423610409/jilZICMdhhHfqe-jcnLSqzaeiq7OHQLY2k0oXtjERY8oQZURU3DXggVYDyuuYllbKXZx";
+
+      const fileNameText = file ? `\n📎 Fișier atașat: ${file.name}\n(Notă: Fișierul trebuie încărcat manual pe Discord sau alt serviciu și să trimiți link separat)` : "";
+
+      const body = {
+        embeds: [{
+          title: "🛠️ Reclamație nouă",
+          color: 0x00bfff,
+          fields: [
+            { name: "Jucător", value: player, inline: false },
+            { name: "Motiv", value: reason + fileNameText, inline: false }
+          ],
+          timestamp: new Date().toISOString()
+        }]
+      };
+
+      try {
+        const res = await fetch(webhookURL, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(body)
+        });
+
+        if (res.ok) {
+          alert('Reclamația a fost trimisă cu succes! Dacă ai fișier, încarcă-l manual pe Discord sau alt serviciu și postează link-ul acolo.');
+          document.getElementById('player').value = '';
+          document.getElementById('reason').value = '';
+          fileInput.value = '';
+        } else {
+          alert('Eroare la trimiterea reclamației.');
+        }
+      } catch (e) {
+        alert('Eroare la trimiterea reclamației.');
+      }
+    }
+  </script>
+</body>
+</html>

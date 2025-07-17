@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Buy Me a Coffee ☕</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: url('https://i.pinimg.com/videos/thumbnails/originals/2f/6b/d5/2f6bd5029e2b3bb71438747562c33bd8.0000000.jpg') no-repeat center center fixed;
+      background-size: cover;
+      height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      color: #fff;
+    }
+
+    .container {
+      background-color: rgba(0, 0, 0, 0.75);
+      padding: 40px;
+      border-radius: 20px;
+      text-align: center;
+      max-width: 500px;
+      box-shadow: 0 0 30px rgba(0, 191, 255, 0.3);
+      animation: fadeIn 1.2s ease-in-out;
+    }
+
+    h1 {
+      font-size: 2.5rem;
+      margin-bottom: 20px;
+      color: #ffcc00;
+      animation: slideIn 0.8s ease;
+    }
+
+    p {
+      font-size: 1.15rem;
+      line-height: 1.6;
+      animation: fadeIn 1.5s ease;
+    }
+
+    .btn-donate {
+      display: inline-block;
+      margin-top: 25px;
+      background-color: #ffcc00;
+      color: #000;
+      padding: 14px 30px;
+      font-size: 18px;
+      font-weight: bold;
+      border: none;
+      border-radius: 10px;
+      text-decoration: none;
+      transition: transform 0.3s ease, background-color 0.3s ease;
+      animation: pulse 2s infinite;
+    }
+
+    .btn-donate:hover {
+      background-color: #e6b800;
+      transform: scale(1.05);
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    @keyframes slideIn {
+      from { opacity: 0; transform: translateX(-30px); }
+      to { opacity: 1; transform: translateX(0); }
+    }
+
+    @keyframes pulse {
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.05); }
+    }
+
+    @media (max-width: 600px) {
+      .container {
+        margin: 20px;
+        padding: 30px 20px;
+      }
+
+      h1 {
+        font-size: 2rem;
+      }
+
+      p {
+        font-size: 1rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>☕ Buy Me a Coffee</h1>
+    <p>
+      Dacă dorești să mă susții și munca mea pentru serverele de Minecraft,<br />
+      poți să-mi cumperi o cafea sau un biscuit virtual. 🍪<br />
+      Este 100% <strong>opțional</strong>, dar îți mulțumesc din suflet dacă o faci! ❤️
+    </p>
+    <a class="btn-donate" href="https://paypal.me/SkyCraft96?country.x=MD&locale.x=en_US" target="_blank">
+      ☕ Cumpără-mi o cafea
+    </a>
+  </div>
+</body>
+</html>
