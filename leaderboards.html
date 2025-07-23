@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Minecraft Server Leaderboard</title>
+    <style>
+        body {
+            font-family: 'Minecraft', Arial, sans-serif;
+            background-color: #1a1a1a;
+            color: #e0e0e0;
+            margin: 0;
+            padding: 20px;
+        }
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        .header h1 {
+            color: #55FF55;
+            text-shadow: 2px 2px #3F3F3F;
+        }
+        .leaderboard-section {
+            background-color: #2d2d2d;
+            border: 4px solid #555;
+            border-radius: 8px;
+            padding: 15px;
+            margin-bottom: 20px;
+        }
+        .section-title {
+            color: #FFFF55;
+            border-bottom: 2px solid #555;
+            padding-bottom: 8px;
+            margin-top: 0;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        th {
+            background-color: #3a3a3a;
+            color: #FFAA00;
+            padding: 10px;
+            text-align: left;
+        }
+        td {
+            padding: 8px 10px;
+            border-bottom: 1px solid #444;
+        }
+        tr:nth-child(even) {
+            background-color: #333;
+        }
+        .server-info {
+            text-align: center;
+            margin-bottom: 20px;
+            font-size: 18px;
+        }
+        .player-head {
+            width: 20px;
+            height: 20px;
+            vertical-align: middle;
+            margin-right: 8px;
+        }
+        .loading {
+            text-align: center;
+            color: #FFFF55;
+            padding: 20px;
+        }
+        .error {
+            text-align: center;
+            color: #FF5555;
+            padding: 20px;
+        }
+        .online {
+            color: #55FF55;
+        }
+        .offline {
+            color: #FF5555;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>MINECRAFT SERVER LEADERBOARD</h1>
+        <div class="server-info">
+            IP: <strong>185.240.242.200:19831</strong> | 
+            Players Online: <span id="online-count">Necunoscut</span>
+        </div>
+    </div>
+
+    <div class="leaderboard-section">
+        <h2 class="section-title">TOP PLAYERS BY PLAYTIME</h2>
+        <table id="playtime-table">
+            <thead>
+                <tr>
+                    <th>Rank</th>
+                    <th>Player</th>
+                    <th>Playtime</th>
+                    <th>Status</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td colspan="4" class="loading">Loading playtime data...</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <script>
+        // Format playtime din minute în format lizibil
+        function formatPlaytime(minutes) {
+            if (!minutes) return "0h";
+            const hours = Math.floor(minutes / 60);
+            const mins = minutes % 60;
+            const days = Math.floor(hours / 24);
+            const hrs = hours % 24;
+
+            let result = [];
+            if (days > 0) result.push(`${days}d`);
+            if (hrs > 0) result.push(`${hrs}h`);
+            if (mins > 0 && days === 0) result.push(`${mins}m`);
+
+            return result.join(' ') || '0h';
+        }
+
+        // Funcție de fetch pentru date jucători
+        async function fetchPlayerData() {
+            try {
+                const API_ENDPOINT = "http://185.240.242.200:19831/api/playtime.php";
+
+                const response = await fetch(API_ENDPOINT);
+
+                if (!response.ok) {
+                    throw new Error(`Server returned ${response.status}`);
+                }
+
+                const data = await response.json();
+
+                const players = data.players || [];
+
+                // Actualizează numărul de jucători online - momentan necunoscut (dacă nu ai date)
+                document.getElementById('online-count').textContent = "Necunoscut";
+
+                // Sortează descrescător după playtime_minutes
+                const sortedPlayers = [...players].sort((a, b) => (b.playtime_minutes || 0) - (a.playtime_minutes || 0));
+
+                const playtimeTable = document.getElementById('playtime-table').getElementsByTagName('tbody')[0];
+
+                if (sortedPlayers.length === 0) {
+                    playtimeTable.innerHTML = '<tr><td colspan="4" class="error">No player data available</td></tr>';
+                } else {
+                    playtimeTable.innerHTML = '';
+                    sortedPlayers.forEach((player, index) => {
+                        const row = playtimeTable.insertRow();
+                        row.insertCell(0).textContent = index + 1;
+
+                        const headUrl = `https://crafatar.com/avatars/${player.uuid}?overlay`;
+                        const playerCell = row.insertCell(1);
+                        playerCell.innerHTML = `<img src="${headUrl}" class="player-head" alt="${player.username}"> ${player.username}`;
+
+                        row.insertCell(2).textContent = formatPlaytime(player.playtime_minutes);
+
+                        const statusCell = row.insertCell(3);
+                        statusCell.innerHTML = '<span class="offline">Offline</span>';
+                    });
+                }
+
+            } catch (error) {
+                console.error("Error fetching player data:", error);
+                const playtimeTable = document.getElementById('playtime-table').getElementsByTagName('tbody')[0];
+                playtimeTable.innerHTML = `<tr><td colspan="4" class="error">Failed to load player data: ${error.message}</td></tr>`;
+            }
+        }
+
+        // Apelează fetch la încărcarea paginii
+        document.addEventListener('DOMContentLoaded', fetchPlayerData);
+
+        // Reîmprospătează la fiecare 5 minute
+        setInterval(fetchPlayerData, 300000);
+    </script>
+</body>
+</html>
