@@ -1021,6 +1021,40 @@
         font-size: 1.2rem;
       }
     }
+
+    /* Language toggle styles */
+    .language-toggle {
+      display: flex;
+      gap: 10px;
+      margin-bottom: 20px;
+    }
+    
+    .lang-btn {
+      padding: 8px 15px;
+      border-radius: 20px;
+      background: rgba(60, 60, 60, 0.7);
+      color: #B0B0B0;
+      border: none;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      font-size: 0.9rem;
+    }
+    
+    .lang-btn.active {
+      background: #7A9CC6;
+      color: #121212;
+      font-weight: 500;
+    }
+    
+    /* Rules containers */
+    .rules-container {
+      display: none;
+    }
+    
+    .rules-container.active {
+      display: block;
+      animation: fadeIn 0.3s ease;
+    }
   </style>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Open+Sans:wght@400;600&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
@@ -1048,7 +1082,7 @@
     </nav>
     
     <main>
-<div style="
+      <div style="
   position: fixed;
   top: 0;
   left: 0;
@@ -1061,7 +1095,7 @@
   z-index: 1000;
   box-shadow: 0 2px 5px rgba(0,0,0,0.1);
 ">
-  ⚠️ The site has been published but is still under development. Thank you for your understanding!
+  ⚠️ Site-ul a fost lansat, dar este încă în dezvoltare. Mulțumim pentru înțelegere!
 </div>
 
 <!-- Adaugă acest padding top la body ca să nu se acopere conținutul de banner -->
@@ -1175,79 +1209,124 @@
         </div>
       </section>
 
-    <!-- Reguli -->
-<section id="reguli">
-  <h2><i class="fas fa-book"></i> Reguli Server</h2>
-  
-  <div class="rule-item">
-    <p>1. Griefing-ul este strict interzis pe server. Orice modificare neautorizată a construcțiilor altor jucători va avea consecințe severe.</p>
-  </div>
-  
-  <div class="rule-item">
-    <p>2. Respectul față de alți jucători și staff este obligatoriu. Orice formă de hărțuire sau comportament toxic nu este tolerată.</p>
-  </div>
-  
-  <div class="rule-item">
-    <p>3. Utilizarea de hack-uri, cheat-uri sau orice altă metodă de înșelăciune va duce la ban permanent fără avertismente preliminare.</p>
-  </div>
-  
-  <div class="rule-item">
-    <p>4. Economia serverului trebuie respectată. Exploatarea bug-urilor sau folosirea de metode necorespunzătoare de obținere a resurselor va fi pedepsită.</p>
-  </div>
-  
-  <div class="rule-item">
-    <p>5. Spam-ul în chat sau folosirea excesivă a comenzilor este interzisă.</p>
-  </div>
-  
-  <div class="rule-item">
-    <p>6. Construcțiile cu conținut inadecvat vor fi șterse și proprietarii vor fi sancționați.</p>
-  </div>
-  
-  <div class="rule-item">
-    <p>7. Nu este permisă folosirea de nick-uri sau skin-uri ofensatoare.</p>
-  </div>
-  
-  <div class="rule-item">
-    <p>8. PvP-ul este permis doar în zonele desemnate.</p>
-  </div>
-
-  <!-- New rules added below -->
-  <div class="rule-item">
-    <p>9. Folosirea de autoclickere sau macro-uri pentru farming este strict interzisă și va duce la ban temporar.</p>
-  </div>
-  
-  <div class="rule-item">
-    <p>10. Teama sau alte entități care cauzează lag vor fi eliminate fără avertisment.</p>
-  </div>
-  
-  <div class="rule-item">
-    <p>11. Orice încercare de a depăși limitele hărții (world border) este interzisă.</p>
-  </div>
-  
-  <div class="rule-item">
-    <p>12. Nu este permisă construirea de ferme care exploatează bug-uri sau mecanici de joc neintenționate.</p>
-  </div>
-  
-  <div class="rule-item">
-    <p>13. Schimbarea limbii în chat pentru a evita filtrul de mesaje este interzisă.</p>
-  </div>
-  
-  <div class="rule-item">
-    <p>14. Nu este permisă folosirea de modificări client-side care oferă avantaje nesigure (X-ray, fly, etc.).</p>
-  </div>
-  
-  <div class="rule-item">
-    <p>15. Orice formă de advertising (reclame la alte servere) este strict interzisă.</p>
-  </div>
-  
-  <div class="rule-item">
-    <p>16. Jucătorii sunt responsabili pentru securitatea conturilor lor. Conturile compromise nu vor fi restabilite.</p>
-  </div>
-  
-  <div class="copyright">
-    © 2025 SkySMP. Toate drepturile rezervate.
-  </div>
-</section>
+      <!-- Sectiunea Reguli -->
+      <section id="reguli">
+        <h2><i class="fas fa-book"></i> Reguli Server</h2>
+        
+        <!-- Butoanele de limbă -->
+        <div class="language-toggle">
+          <button class="lang-btn active" data-lang="ro">RO</button>
+          <button class="lang-btn" data-lang="en">EN</button>
+        </div>
+        
+        <!-- Reguli în română -->
+        <div class="rules-container active" id="rules-ro">
+          <div class="rule-item">
+            <p>1. Griefing-ul este strict interzis pe server. Orice modificare neautorizată a construcțiilor altor jucători va avea consecințe severe.</p>
+          </div>
+          <div class="rule-item">
+            <p>2. Respectul față de alți jucători și staff este obligatoriu. Orice formă de hărțuire sau comportament toxic nu este tolerată.</p>
+          </div>
+          <div class="rule-item">
+            <p>3. Utilizarea de hack-uri, cheat-uri sau orice altă metodă de înșelăciune va duce la ban permanent fără avertismente preliminare.</p>
+          </div>
+          <div class="rule-item">
+            <p>4. Economia serverului trebuie respectată. Exploatarea bug-urilor sau folosirea de metode necorespunzătoare de obținere a resurselor va fi pedepsită.</p>
+          </div>
+          <div class="rule-item">
+            <p>5. Spam-ul în chat sau folosirea excesivă a comenzilor este interzisă.</p>
+          </div>
+          <div class="rule-item">
+            <p>6. Construcțiile cu conținut inadecvat vor fi șterse și proprietarii vor fi sancționați.</p>
+          </div>
+          <div class="rule-item">
+            <p>7. Nu este permisă folosirea de nick-uri sau skin-uri ofensatoare.</p>
+          </div>
+          <div class="rule-item">
+            <p>8. PvP-ul este permis doar în zonele desemnate.</p>
+          </div>
+          <div class="rule-item">
+            <p>9. Folosirea de autoclickere sau macro-uri pentru farming este strict interzisă și va duce la ban temporar.</p>
+          </div>
+          <div class="rule-item">
+            <p>10. Teama sau alte entități care cauzează lag vor fi eliminate fără avertisment.</p>
+          </div>
+          <div class="rule-item">
+            <p>11. Orice încercare de a depăși limitele hărții (world border) este interzisă.</p>
+          </div>
+          <div class="rule-item">
+            <p>12. Nu este permisă construirea de ferme care exploatează bug-uri sau mecanici de joc neintenționate.</p>
+          </div>
+          <div class="rule-item">
+            <p>13. Schimbarea limbii în chat pentru a evita filtrul de mesaje este interzisă.</p>
+          </div>
+          <div class="rule-item">
+            <p>14. Nu este permisă folosirea de modificări client-side care oferă avantaje nesigure (X-ray, fly, etc.).</p>
+          </div>
+          <div class="rule-item">
+            <p>15. Orice formă de advertising (reclame la alte servere) este strict interzisă.</p>
+          </div>
+          <div class="rule-item">
+            <p>16. Jucătorii sunt responsabili pentru securitatea conturilor lor. Conturile compromise nu vor fi restabilite.</p>
+          </div>
+        </div>
+        
+        <!-- Reguli în engleză -->
+        <div class="rules-container" id="rules-en">
+          <div class="rule-item">
+            <p>1. Griefing is strictly prohibited on the server. Any unauthorized modification of other players' builds will have severe consequences.</p>
+          </div>
+          <div class="rule-item">
+            <p>2. Respect towards other players and staff is mandatory. Any form of harassment or toxic behavior will not be tolerated.</p>
+          </div>
+          <div class="rule-item">
+            <p>3. Using hacks, cheats or any other cheating method will result in a permanent ban without prior warning.</p>
+          </div>
+          <div class="rule-item">
+            <p>4. The server economy must be respected. Exploiting bugs or using inappropriate methods to obtain resources will be punished.</p>
+          </div>
+          <div class="rule-item">
+            <p>5. Spamming in chat or excessive use of commands is prohibited.</p>
+          </div>
+          <div class="rule-item">
+            <p>6. Builds with inappropriate content will be deleted and their owners will be sanctioned.</p>
+          </div>
+          <div class="rule-item">
+            <p>7. The use of offensive nicknames or skins is not allowed.</p>
+          </div>
+          <div class="rule-item">
+            <p>8. PvP is only allowed in designated areas.</p>
+          </div>
+          <div class="rule-item">
+            <p>9. Using autoclickers or macros for farming is strictly prohibited and will result in a temporary ban.</p>
+          </div>
+          <div class="rule-item">
+            <p>10. Mobs or other entities causing lag will be removed without warning.</p>
+          </div>
+          <div class="rule-item">
+            <p>11. Any attempt to bypass the world border is prohibited.</p>
+          </div>
+          <div class="rule-item">
+            <p>12. Building farms that exploit bugs or unintended game mechanics is not allowed.</p>
+          </div>
+          <div class="rule-item">
+            <p>13. Changing the chat language to bypass the message filter is prohibited.</p>
+          </div>
+          <div class="rule-item">
+            <p>14. Using client-side modifications that provide unfair advantages (X-ray, fly, etc.) is not allowed.</p>
+          </div>
+          <div class="rule-item">
+            <p>15. Any form of advertising (for other servers) is strictly prohibited.</p>
+          </div>
+          <div class="rule-item">
+            <p>16. Players are responsible for the security of their accounts. Compromised accounts will not be restored.</p>
+          </div>
+        </div>
+        
+        <div class="copyright">
+          © 2025 SkySMP. Toate drepturile rezervate. | All rights reserved.
+        </div>
+      </section>
 
       <!-- Actualizări -->
       <section id="stiri">
@@ -1754,6 +1833,27 @@
               update.style.display = 'none';
             }
           });
+        });
+      });
+    });
+
+    // Funcționalitate pentru butoanele de limbă
+    document.addEventListener('DOMContentLoaded', function() {
+      const langButtons = document.querySelectorAll('.lang-btn');
+      
+      langButtons.forEach(button => {
+        button.addEventListener('click', function() {
+          const lang = this.dataset.lang;
+          
+          // Update active button
+          langButtons.forEach(btn => btn.classList.remove('active'));
+          this.classList.add('active');
+          
+          // Show the correct rules container
+          document.querySelectorAll('.rules-container').forEach(container => {
+            container.classList.remove('active');
+          });
+          document.getElementById(`rules-${lang}`).classList.add('active');
         });
       });
     });
