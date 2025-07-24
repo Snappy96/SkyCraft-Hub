@@ -2,30 +2,39 @@
 <html>
 <head>
     <title>FlappyCoin</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            -webkit-tap-highlight-color: transparent;
+        }
+        
         body {
             font-family: 'Arial', sans-serif;
             background: linear-gradient(135deg, #87CEEB, #1E90FF);
-            margin: 0;
-            padding: 0;
             display: flex;
             flex-direction: column;
             align-items: center;
+            justify-content: center;
             min-height: 100vh;
             color: #333;
             overflow: hidden;
+            touch-action: manipulation;
         }
         
         #gameContainer {
             position: relative;
-            width: 400px;
-            height: 600px;
-            margin: 20px auto;
-            border-radius: 15px;
+            width: 100vw;
+            height: 100vh;
+            max-width: 400px;
+            max-height: 600px;
             overflow: hidden;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
             background-color: #87CEEB;
             display: none;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
         }
         
         #homeScreen {
@@ -33,8 +42,10 @@
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            width: 400px;
-            height: 600px;
+            width: 100vw;
+            height: 100vh;
+            max-width: 400px;
+            max-height: 600px;
             background: linear-gradient(135deg, #87CEEB, #1E90FF);
             border-radius: 15px;
             box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
@@ -45,15 +56,16 @@
         }
         
         #gameCanvas {
-            background-color: #87CEEB;
             display: block;
+            width: 100%;
+            height: 100%;
         }
         
         h1 {
             color: #FFD700;
             text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
             margin-bottom: 30px;
-            font-size: 2.5em;
+            font-size: 2.5rem;
             z-index: 2;
         }
         
@@ -64,7 +76,7 @@
             padding: 12px 25px;
             margin: 10px;
             border-radius: 50px;
-            font-size: 1.2em;
+            font-size: 1.2rem;
             cursor: pointer;
             transition: all 0.3s;
             box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
@@ -84,7 +96,7 @@
             justify-content: space-between;
             width: 100%;
             margin-bottom: 30px;
-            font-size: 1.2em;
+            font-size: 1.2rem;
             color: white;
             text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
             z-index: 2;
@@ -107,11 +119,12 @@
             background: linear-gradient(135deg, #f5f7fa, #e4e8f0);
             padding: 30px;
             border-radius: 15px;
-            width: 350px;
-            max-width: 90%;
+            width: 90%;
+            max-width: 350px;
             box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
             text-align: center;
             animation: modalFadeIn 0.3s;
+            position: relative;
         }
         
         @keyframes modalFadeIn {
@@ -130,7 +143,7 @@
             margin: 15px 0;
             border: 2px solid #ddd;
             border-radius: 8px;
-            font-size: 1em;
+            font-size: 1rem;
             box-sizing: border-box;
         }
         
@@ -143,7 +156,7 @@
             position: absolute;
             top: 15px;
             right: 15px;
-            font-size: 1.5em;
+            font-size: 1.5rem;
             cursor: pointer;
             color: #888;
         }
@@ -154,7 +167,7 @@
         
         #transactionCode {
             font-family: monospace;
-            font-size: 1.2em;
+            font-size: 1.2rem;
             background-color: #f0f0f0;
             padding: 10px;
             border-radius: 5px;
@@ -165,7 +178,7 @@
         .instructions {
             text-align: left;
             margin-top: 20px;
-            font-size: 0.9em;
+            font-size: 0.9rem;
             color: #555;
             line-height: 1.5;
         }
@@ -204,6 +217,48 @@
         .cloud2 { width: 120px; height: 80px; top: 120px; right: 30px; }
         .cloud3 { width: 100px; height: 70px; bottom: 150px; left: 30px; }
         .cloud4 { width: 90px; height: 65px; bottom: 100px; right: 60px; }
+        
+        /* Touch controls */
+        #touchControls {
+            display: none;
+            position: fixed;
+            bottom: 20px;
+            left: 0;
+            right: 0;
+            justify-content: center;
+            z-index: 50;
+        }
+        
+        .touch-button {
+            width: 80px;
+            height: 80px;
+            background-color: rgba(255, 215, 0, 0.5);
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 24px;
+            color: white;
+            user-select: none;
+            -webkit-user-select: none;
+            touch-action: manipulation;
+            margin: 0 20px;
+        }
+        
+        @media (max-width: 500px) {
+            h1 {
+                font-size: 2rem;
+            }
+            
+            button {
+                width: 160px;
+                padding: 10px 20px;
+            }
+            
+            #touchControls {
+                display: flex;
+            }
+        }
     </style>
 </head>
 <body>
@@ -223,8 +278,13 @@
     </div>
     
     <div id="gameContainer">
-        <canvas id="gameCanvas" width="400" height="600"></canvas>
+        <canvas id="gameCanvas"></canvas>
         <div id="bird"></div>
+    </div>
+    
+    <!-- Touch controls for mobile -->
+    <div id="touchControls">
+        <div class="touch-button" id="jumpButton">↑</div>
     </div>
     
     <div id="withdrawModal" class="modal">
@@ -274,6 +334,8 @@
         let lastPipeTime = 0;
         let coinsCollected = 0;
         let clouds = [];
+        let isMobile = false;
+        let gameStarted = false;
         
         // DOM elements
         const homeScreen = document.getElementById('homeScreen');
@@ -289,6 +351,16 @@
         const withdrawAmount = document.getElementById('withdrawAmount');
         const transactionCode = document.getElementById('transactionCode');
         const closeButtons = document.querySelectorAll('.close');
+        const touchControls = document.getElementById('touchControls');
+        const jumpButton = document.getElementById('jumpButton');
+        
+        // Check if mobile device
+        function checkMobile() {
+            isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+            if (isMobile) {
+                touchControls.style.display = 'flex';
+            }
+        }
         
         // Load saved data
         function loadData() {
@@ -310,8 +382,13 @@
         
         // Initialize game
         function initGame() {
+            checkMobile();
             canvas = document.getElementById('gameCanvas');
             ctx = canvas.getContext('2d');
+            
+            // Set initial canvas size
+            resizeCanvas();
+            window.addEventListener('resize', resizeCanvas);
             
             loadData();
             
@@ -333,18 +410,61 @@
                 });
             });
             
-            // Click or space to jump
+            // Keyboard controls
             document.addEventListener('keydown', (e) => {
-                if (e.code === 'Space' && gameRunning) {
-                    bird.velocity = -8;
+                if ((e.code === 'Space' || e.code === 'ArrowUp') && gameRunning) {
+                    birdJump();
                 }
             });
             
-            canvas.addEventListener('click', () => {
+            // Touch controls
+            jumpButton.addEventListener('touchstart', (e) => {
+                e.preventDefault();
+                if (gameRunning) birdJump();
+            });
+            
+            // Tap anywhere on screen to jump
+            canvas.addEventListener('touchstart', (e) => {
+                e.preventDefault();
                 if (gameRunning) {
-                    bird.velocity = -8;
+                    birdJump();
+                } else if (gameStarted) {
+                    // Handle game over screen tap
+                    const rect = canvas.getBoundingClientRect();
+                    const x = e.touches[0].clientX - rect.left;
+                    const y = e.touches[0].clientY - rect.top;
+                    checkHomeButtonTap(x, y);
                 }
             });
+            
+            canvas.addEventListener('click', (e) => {
+                if (gameRunning) {
+                    birdJump();
+                } else if (gameStarted) {
+                    // Handle game over screen click
+                    const rect = canvas.getBoundingClientRect();
+                    const x = e.clientX - rect.left;
+                    const y = e.clientY - rect.top;
+                    checkHomeButtonTap(x, y);
+                }
+            });
+        }
+        
+        // Resize canvas to fit container
+        function resizeCanvas() {
+            const container = gameContainer;
+            canvas.width = container.clientWidth;
+            canvas.height = container.clientHeight;
+            
+            // Adjust bird position if game is running
+            if (gameRunning) {
+                bird.y = Math.min(bird.y, canvas.height - bird.height);
+            }
+        }
+        
+        // Bird jump function
+        function birdJump() {
+            bird.velocity = -8;
         }
         
         // Create clouds for home screen
@@ -361,16 +481,30 @@
         
         // Start game
         function startGame() {
+            gameStarted = true;
             homeScreen.style.display = 'none';
             gameContainer.style.display = 'block';
             
-            bird = { x: 100, y: 300, width: 40, height: 30, velocity: 0, gravity: 0.4 };
+            // Ensure canvas is properly sized
+            resizeCanvas();
+            
+            // Adjust bird size for mobile
+            const birdSize = isMobile ? 30 : 40;
+            bird = { 
+                x: canvas.width * 0.2, 
+                y: canvas.height / 2, 
+                width: birdSize, 
+                height: birdSize * 0.75, 
+                velocity: 0, 
+                gravity: 0.4 
+            };
+            
             pipes = [];
             score = 0;
             coinsCollected = 0;
             gameRunning = true;
             lastPipeTime = 0;
-            pipeGap = 180;
+            pipeGap = Math.max(150, canvas.height * 0.3);
             pipeFrequency = 2000;
             
             // Create initial clouds
@@ -384,13 +518,20 @@
                 });
             }
             
-            animate();
+            // Update bird element position
+            const birdElement = document.getElementById('bird');
+            birdElement.style.width = bird.width + 'px';
+            birdElement.style.height = bird.height + 'px';
+            
+            // Start game loop
+            requestAnimationFrame(gameLoop);
         }
         
-        // Game loop
-        function animate(timestamp = 0) {
+        // Main game loop
+        function gameLoop(timestamp = 0) {
             if (!gameRunning) return;
             
+            // Clear canvas
             ctx.clearRect(0, 0, canvas.width, canvas.height);
             
             // Draw sky background
@@ -482,7 +623,7 @@
                 }
             }
             
-            // Draw bird (using CSS for better visuals)
+            // Update bird element position
             const birdElement = document.getElementById('bird');
             birdElement.style.left = bird.x + 'px';
             birdElement.style.top = bird.y + 'px';
@@ -491,13 +632,15 @@
             // Draw score
             ctx.fillStyle = '#000';
             ctx.font = '30px Arial';
-            ctx.fillText(score, canvas.width / 2, 50);
+            ctx.textAlign = 'center';
+            ctx.fillText(score.toString(), canvas.width / 2, 50);
             
             // Draw coins collected this round
             ctx.font = '20px Arial';
-            ctx.fillText('Coins: ' + coinsCollected, 20, 30);
+            ctx.textAlign = 'left';
+            ctx.fillText('Coins: ' + coinsCollected.toString(), 20, 30);
             
-            requestAnimationFrame(animate);
+            requestAnimationFrame(gameLoop);
         }
         
         // Create a new pipe
@@ -546,17 +689,10 @@
             ctx.fillStyle = '#000';
             ctx.font = '20px Arial';
             ctx.fillText('HOME', canvas.width / 2, canvas.height / 2 + 150);
-            
-            // Add click handler for home button
-            canvas.addEventListener('click', handleHomeClick, { once: true });
         }
         
-        // Handle click on home button
-        function handleHomeClick(e) {
-            const rect = canvas.getBoundingClientRect();
-            const x = e.clientX - rect.left;
-            const y = e.clientY - rect.top;
-            
+        // Check if home button was tapped
+        function checkHomeButtonTap(x, y) {
             if (
                 x >= canvas.width / 2 - 100 && 
                 x <= canvas.width / 2 + 100 && 
@@ -565,6 +701,10 @@
             ) {
                 gameContainer.style.display = 'none';
                 homeScreen.style.display = 'flex';
+                if (isMobile) {
+                    touchControls.style.display = 'none';
+                }
+                gameStarted = false;
             }
         }
         
@@ -616,7 +756,14 @@
         }
         
         // Initialize the game when loaded
-        window.onload = initGame;
+        window.onload = function() {
+            initGame();
+            
+            // Force initial canvas resize
+            setTimeout(() => {
+                resizeCanvas();
+            }, 100);
+        };
     </script>
 </body>
 </html>
